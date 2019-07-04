@@ -108,12 +108,13 @@ func main() {
 		Reverse:        false,
 		AllVersions:    true,
 	})
-	defer itr.Close()
 	for itr.Rewind(); itr.Valid(); itr.Next() {
 		item := itr.Item()
 		valCopy, err = item.ValueCopy(nil)
 		log.Printf("val: %s\n", valCopy)
 	}
+	itr.Close()
+    txn.Discard()
 
 	f, err := os.Create("./btest.prof")
 	if err != nil {
